@@ -3,7 +3,7 @@ package Singleton;
 public class Singleton2 implements Singleton{
     //懒汉   使用时再实例静态对象供外部使用
     private static Singleton2 singleton = null;
-    private static volatile Singleton2 singleton2 = null;
+    private static Singleton2 singleton2 = null;
 
     private Singleton2() { }//private 避免类在外部被实例化
 
@@ -13,8 +13,12 @@ public class Singleton2 implements Singleton{
         }
         return singleton;
     }
-
-    public static synchronized Singleton2 getInstance2() {
+    //同步锁 用于防止多次实例化
+    public synchronized static Singleton2 getInstance2() {
+        /**
+         * 如果添加class类锁，影响了性能，加锁之后将代码进行了串行化，
+         * 我们的代码块绝大部分是读操作，在读操作的情况下，代码线程是安全的
+         */
         if (singleton2 == null) {
             singleton2 = new Singleton2();
         }
@@ -38,6 +42,11 @@ public class Singleton2 implements Singleton{
 
     @Override
     public void Bad() {
-        System.out.println("emmm。。。 还没想到");
+        if (singleton != null) {
+            System.out.println("在不加锁的情况下，线程不安全，可能出现多份实例");
+        }
+        if (singleton2 != null) {
+            System.out.println("在加锁的情况下，会是程序串行化，使系统有严重的性能问题");
+        }
     }
 }

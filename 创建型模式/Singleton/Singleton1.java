@@ -24,7 +24,7 @@ public class Singleton1 implements Singleton{
 
     @Override
     public void Bad() {
-        System.out.println("类加载较慢 不能确定有其他的方式（或者其他的静态方法）导致类装载");
+        System.out.println("类加载较慢 不能确定有其他的方式（或者其他的静态方法）导致类装载容易浪费内存空间");
     }
 
 }
